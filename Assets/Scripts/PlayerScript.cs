@@ -18,7 +18,7 @@ public class MainCode : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.A))
             {
-            playerTransform.Translate(-Time.deltaTime, 0, 0);
+            playerTransform.Translate(-2f*Time.deltaTime, 0, 0);
             }
         }
 
@@ -29,13 +29,12 @@ public class MainCode : MonoBehaviour
         {  
             if (Input.GetKey(KeyCode.D))
             {
-            playerTransform.Translate(Time.deltaTime, 0, 0);
+            playerTransform.Translate(2f*Time.deltaTime, 0, 0);
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Hi");
             playerRigidbody.AddForce(playerTransform.up * throwForce, ForceMode2D.Impulse);
         }
 
@@ -43,5 +42,13 @@ public class MainCode : MonoBehaviour
 
       
 
+    }
+
+
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        gameObject.SetActive(false);
     }
 }
