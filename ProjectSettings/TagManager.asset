@@ -8,11 +8,12 @@ TagManager:
   - Coin
   - Wall
   - Diamond
+  - GameOver
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

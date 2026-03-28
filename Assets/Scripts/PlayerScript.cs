@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class MainCode : MonoBehaviour
 {
-    public Transform playerTransform;
+
+    [SerializeField] Transform groundCheck;
+    [SerializeField] float groundRadius = 0.2f;
+    [SerializeField] LayerMask groundLayer;
+    
     public Rigidbody2D playerRigidbody;
     public int throwForce;
     
     
     public bool isGrounded;
     public bool canDoubleJump;
-
-    public float jumpForce = 5f;
 
 
     void Start()
@@ -23,37 +25,70 @@ public class MainCode : MonoBehaviour
     void Update()
     {
 
+        float moveInput = 0f;
 
+        if (Input.GetKey(KeyCode.A))
+                moveInput = -0.7f;          
+        else if (Input.GetKey(KeyCode.D))           
+                moveInput = 0.7f;
 
-        if (playerTransform.position.x > -9.5)
+        playerRigidbody.linearVelocity = new Vector2 (moveInput * 5f, playerRigidbody.linearVelocity.y);   
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
+
+        if (isGrounded)
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                playerTransform.Translate(-2f * Time.deltaTime, 0, 0);
-            }
-        }
-
-        if (playerTransform.position.x < 61)
-        {
-            if (Input.GetKey(KeyCode.D))
-            {
-                playerTransform.Translate(2f * Time.deltaTime, 0, 0);
-            }
+            canDoubleJump = true;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!isGrounded)
+        {         
+            if (isGrounded)
             {
-                playerRigidbody.AddForce(playerTransform.up * throwForce, ForceMode2D.Impulse);
+                playerRigidbody.AddForce(Vector2.up * throwForce, ForceMode2D.Impulse);
                 canDoubleJump = true;
             }
 
             else if (canDoubleJump)
             {
                 playerRigidbody.linearVelocity = new Vector2(playerRigidbody.linearVelocity.x, 0 );
+                playerRigidbody.AddForce(Vector2.up * throwForce,ForceMode2D.Impulse);
                 canDoubleJump = false;
             }
+            
+        }
+
+        Vector2 pos = playerRigidbody.position;
+        {
+            if (pos.x <-30f)
+            {
+                pos.x = -30f;
+                playerRigidbody.position = pos;
+            }
+        }
+    }
+
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        PlayerReachTheEnd(other);
+    }
+
+
+    void PlayerReachTheEnd(Collider2D other)
+    {
+        if (other.CompareTag("GameOver"))
+        {
+            FindAnyObjectByType<GameManager>().CalculateScore();
+            FindFirstObjectByType<GameManager>().GameOver();
+
+            Camera cam = Camera.main;
+            if (cam != null)
+            {
+                cam.transform.parent = null;
+            }
+
+            Destroy(gameObject);
             
         }
     }

@@ -20,6 +20,7 @@ public class SpaceDiamonds : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             isCollected = true;
+            FindFirstObjectByType<GameManager>().AddDiamond();
             gameObject.SetActive(false);
         }
     }
