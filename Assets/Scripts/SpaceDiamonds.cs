@@ -4,11 +4,11 @@ public class SpaceDiamonds : MonoBehaviour
 {
     public bool isCollected = false;
 
+
     void Start()
     {
       
     }
-
   
     void Update()
     {

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,25 +9,35 @@ public class GameManager : MonoBehaviour
     public SpaceDiamonds[] allDiamonds;
     public int diamondCount = 0;
     
-    public float timer = 45f;
+    public float timer = 45;
+    public float startTime = 45;
 
     public GameObject gameOverScreen;
+    public GameObject gameUI;
 
     public UIFrame[] allUIFrames;
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI timerAtEnd;
+    public TextMeshProUGUI resultText;
+
+    bool isGameOver = false;
     
 
     void Start()
     {
-        Instantiate(player);
+        player = Instantiate(player);
+
+        startTime = timer;
 
         allDiamonds = FindObjectsByType<SpaceDiamonds>(FindObjectsSortMode.None);
 
         gameOverScreen.SetActive(false);
     }
 
-
     void Update()
     {
+        if (isGameOver) return;
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
@@ -52,29 +63,28 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        
+        isGameOver = true;
 
-        if (diamondCount >= 35 && timer >= 9)
-        {
-        
-        }
-
-        else if (diamondCount >= 25)
-        {
-        
-        }
-
-        
-
-       
+        gameUI.SetActive(false);
 
         gameOverScreen.SetActive(true);
 
-        Destroy(player);
+        finalScoreText.text = "$" + diamondCount.ToString();
 
-        Debug.Log("gameover");
+        float elapsedTime = startTime - timer;
+        timerAtEnd.text = "Time: " + Mathf.CeilToInt(elapsedTime).ToString();
+
+        if (timer <= 0 || diamondCount < 25)
+        {
+            resultText.text = "NeverMind... Youre Lost";
+        }
+
+
+        player.GetComponent<MainCode>().DisablePlayer();
+
+
+
     }
-
 
     public void AddDiamond()
     {

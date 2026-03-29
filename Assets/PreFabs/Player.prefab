@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 6800203611702944030}
   - component: {fileID: 5915199119884837445}
   - component: {fileID: 5467736055604358538}
-  - component: {fileID: 5587768835819610008}
+  - component: {fileID: 9214661435279850626}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1011049425650750438
 Transform:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.7564636, y: 1.303138}
   m_EdgeRadius: 0
---- !u!114 &5587768835819610008
+--- !u!114 &9214661435279850626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,8 +188,9 @@ MonoBehaviour:
     m_Bits: 8
   playerRigidbody: {fileID: 5915199119884837445}
   throwForce: 6
-  isGrounded: 1
+  isGrounded: 0
   canDoubleJump: 0
+  canMove: 1
 --- !u!1 &5308403498402251417
 GameObject:
   m_ObjectHideFlags: 0

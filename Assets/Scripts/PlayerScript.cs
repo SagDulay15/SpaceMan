@@ -14,6 +14,7 @@ public class MainCode : MonoBehaviour
     
     public bool isGrounded;
     public bool canDoubleJump;
+    public bool canMove = true;
 
 
     void Start()
@@ -21,10 +22,9 @@ public class MainCode : MonoBehaviour
         
     }
 
-
     void Update()
     {
-
+        if (!canMove) return;
         float moveInput = 0f;
 
         if (Input.GetKey(KeyCode.A))
@@ -68,19 +68,18 @@ public class MainCode : MonoBehaviour
         }
     }
 
-
     void OnTriggerEnter2D(Collider2D other)
     {
         PlayerReachTheEnd(other);
     }
 
-
     void PlayerReachTheEnd(Collider2D other)
     {
-        if (other.CompareTag("GameOver"))
+        if (other.CompareTag("Finish"))
         {
-            FindAnyObjectByType<GameManager>().CalculateScore();
-            FindFirstObjectByType<GameManager>().GameOver();
+            GameManager gm = FindFirstObjectByType<GameManager>();
+
+            gm.GameOver();
 
             Camera cam = Camera.main;
             if (cam != null)
@@ -88,8 +87,16 @@ public class MainCode : MonoBehaviour
                 cam.transform.parent = null;
             }
 
-            Destroy(gameObject);
+            GetComponent<MainCode>().DisablePlayer();
             
         }
+    }
+
+    public void DisablePlayer()
+    {
+        canMove = false;
+
+        playerRigidbody.linearVelocity = Vector2.zero;
+        playerRigidbody.simulated = false;
     }
 }

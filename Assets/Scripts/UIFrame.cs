@@ -7,20 +7,12 @@ public class UIFrame : MonoBehaviour
     public GameManager gameManager;
     public TextMeshProUGUI diamondsCollected;
     public TextMeshProUGUI timer;
-    public TextMeshProUGUI stars;
-
-
-
+    
 
     private void Update()
     {
         diamondsCollected.text = "$" + gameManager.diamondCount;
-        timer.text = "" + Mathf.Ceil(gameManager.timer);
+        timer.text =Mathf.CeilToInt(gameManager.timer).ToString();
     }
 
-
-    public void SetStars(int starCount)
-    {
-        stars.text = starCount + "Stars";
-    }
 }
